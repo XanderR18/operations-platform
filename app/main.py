@@ -1,29 +1,36 @@
 from application import Application
+import logging
 
 def main():
+    # Configure logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format="[%(levelname)s] %(message)s"
+    )
+
     # Initalize application
-    print("[INFO] Initializing Operations Platform Application...")
+    logging.info("Initializing Operations Platform Application...")
     try:
         application = Application()
-        print("[INFO] Application successfully initialized.")
+        logging.info("Application successfully initialized.\n")
     except Exception as e:
-        print(f"[ERROR] Application failed to initialize:\n {e}")
+        logging.error(f"Application failed to initialize:\n {e}\n")
 
     # Start application
-    print("[INFO] Starting application...")
+    logging.info("Starting application...")
     try:
         application.start()
-        print("[INFO] Application succesfully started.")
+        logging.info("Application succesfully started.\n")
     except Exception as e:
-        print(f"[ERROR] Application failed to start:\n {e}")
+        logging.error(f"Application failed to start:\n {e}\n")
 
     # Shutdown application
-    print("[INFO] Shutting down application...")
+    logging.info("Shutting down application...")
     try:
         application.shutdown()
-        print("[INFO] Application succesfully shutdown.")
+        logging.info("Application succesfully shutdown.\n")
     except Exception as e:
-        print(f"[ERROR] Application failed to shut down:\n {e}")
+        logging.error(f"Application failed to shut down:\n {e}\n")
 
 if __name__ == "__main__":
     main()
