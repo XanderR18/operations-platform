@@ -17,6 +17,13 @@ def main():
     except Exception as e:
         print(f"[ERROR] Application failed to start:\n {e}")
 
+    # Shutdown application
+    print("[INFO] Shutting down application...")
+    try:
+        application.shutdown()
+        print("[INFO] Application succesfully shutdown.")
+    except Exception as e:
+        print(f"[ERROR] Application failed to shut down:\n {e}")
 
 if __name__ == "__main__":
     main()
