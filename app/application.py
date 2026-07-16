@@ -1,4 +1,7 @@
+import logging
 from enum import Enum, auto
+
+logging = logging.getLogger(__name__)
 
 class Application():
     def __init__(self):
@@ -9,16 +12,20 @@ class Application():
             raise InvalidStateTransition(f"Cannot start application while status is {self.status.name}.")
         
         self.status = ApplicationStatus.STARTING
-        # print("Vroom vroom, I started.")
+        logging.info(f"Application starting. Status: {self.status.name}")
+
         self.status = ApplicationStatus.RUNNING
+        logging.info(f"Application started. Status: {self.status.name}")
 
     def shutdown(self):
         if self.status != ApplicationStatus.RUNNING:
             raise InvalidStateTransition(f"Cannot shutdown application while status is {self.status.name}.")
 
         self.status = ApplicationStatus.SHUTTING_DOWN
-        # print("Bye bye, I am shutting down.")
+        logging.info(f"Application shutting down. Status: {self.status.name}")
+        
         self.status = ApplicationStatus.STOPPED
+        logging.info(f"Application stopped. Status: {self.status.name}")
 
 class ApplicationStatus(Enum):
     STARTING = auto()

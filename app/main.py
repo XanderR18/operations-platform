@@ -1,5 +1,5 @@
-from application import Application
 import logging
+from application import Application, InvalidStateTransition
 
 def main():
     # Configure logging
@@ -13,7 +13,7 @@ def main():
     try:
         application = Application()
         logging.info("Application successfully initialized.\n")
-    except Exception as e:
+    except:
         logging.error(f"Application failed to initialize:\n {e}\n")
 
     # Start application
@@ -21,7 +21,7 @@ def main():
     try:
         application.start()
         logging.info("Application succesfully started.\n")
-    except Exception as e:
+    except InvalidStateTransition as e:
         logging.error(f"Application failed to start:\n {e}\n")
 
     # Shutdown application
@@ -29,7 +29,7 @@ def main():
     try:
         application.shutdown()
         logging.info("Application succesfully shutdown.\n")
-    except Exception as e:
+    except InvalidStateTransition as e:
         logging.error(f"Application failed to shut down:\n {e}\n")
 
 if __name__ == "__main__":
