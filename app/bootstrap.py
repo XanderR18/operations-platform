@@ -11,13 +11,10 @@ def bootstrap(machine_service):
     storage_machine = Machine("storage-main", "storage-main", "192.168.0.40", "B4-2E-99-3B-4A-B3", MachineRole.STORAGE)
 
     machine_service.add_machine(workstation_machine)
-    logging.info(f"Registered machine with id: {machine_service.get_machine("workstation-main").host_name}")
-
     machine_service.add_machine(compute_machine)
-    logging.info(f"Registered machine with id: {machine_service.get_machine("compute-main").host_name}")
-
     machine_service.add_machine(network_machine)
-    logging.info(f"Registered machine with id: {machine_service.get_machine("network-main").host_name}")
-
     machine_service.add_machine(storage_machine)
-    logging.info(f"Registered machine with id: {machine_service.get_machine("storage-main").host_name}")
+
+    logging.info(f"Bootstrapped {len(machine_service.get_all_machines())} machines")
+
+    logging.info("Bootstrapping complete.")

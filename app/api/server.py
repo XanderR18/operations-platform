@@ -1,5 +1,8 @@
+import logging
 from fastapi import FastAPI
 from .routes import register_routes
+
+logging = logging.getLogger(__name__)
 
 class APIServer():
     def __init__(self):
@@ -7,16 +10,20 @@ class APIServer():
         self.services = {}
 
     def start(self):
+        logging.info("Registering routes...")
         self._register_routes()
 
+        logging.info("API succesfully started.")
+
     def stop(self):
-        pass
+        logging.info("API succesfully stopped.")
 
     def add_service(self, service):
         if service.name in self.services:
             raise DuplicateService(f"Service with name: {service.name} already exists")
 
         self.services[service.name] = service
+        logging.info(f"Service with name: {service.name} has been added.")
 
     def _register_routes(self):
         register_routes(self.app, self.services)

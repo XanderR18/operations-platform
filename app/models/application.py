@@ -20,15 +20,19 @@ class Application():
         logging.info(f"Application starting. Status: {self.status.name}")
 
         # Start services
+        logging.info("Starting machine service...")
         self.machine_service.start()
 
         # Creates inital state of the platform
+        logging.info("Bootstrapping application...")
         bootstrap(self.machine_service)
 
         # Add service to API
+        logging.info("Adding machine service to API...")
         self.api_server.add_service(self.machine_service)
 
         # Start API
+        logging.info("Starting API...")
         self.api_server.start()        
 
         self.status = ApplicationStatus.RUNNING
@@ -42,6 +46,7 @@ class Application():
         logging.info(f"Application stopping. Status: {self.status.name}")
 
         # Stop services
+        logging.info("Stopping machine service...")
         self.machine_service.stop()
         
         self.status = ApplicationStatus.STOPPED

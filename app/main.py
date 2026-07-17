@@ -15,25 +15,22 @@ def main():
     logging.info("Application successfully initialized.\n")
 
     # Start application
-    logging.info("Starting application...")
     try:
         application.start()
-        logging.info("Application succesfully started.\n")
     except InvalidStateTransition as e:
         logging.error(f"Application failed to start:\n {e}\n")
 
     # Start Uvicorn for testing. Temporary location
+    logging.info("Starting Uvicorn..")
     uvicorn.run(
         application.api_server.app,
         host="127.0.0.1",
         port=8000
     )
 
-    # Shutdown application
-    logging.info("Stopping application...")
+    # Stop application
     try:
         application.stop()
-        logging.info("Application succesfully stopped.\n")
     except InvalidStateTransition as e:
         logging.error(f"Application failed to stop:\n {e}\n")
 
