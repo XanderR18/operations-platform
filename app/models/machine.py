@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from .machine_health import MachineHealth
 
 class Machine():
     def __init__(self, id, host_name, IP, MAC, role):
@@ -7,6 +8,7 @@ class Machine():
         self.ip = IP
         self.mac = MAC
         self.role = role
+        self.health = MachineHealth()
 
     def __repr__(self):
         return f"Machine(id='{self.id}', name='{self.host_name}', ip='{self.ip}', mac='{self.mac}')"
