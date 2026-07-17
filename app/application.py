@@ -1,11 +1,13 @@
 import logging
 from enum import Enum, auto
+from services.machine_service import MachineService
 
 logging = logging.getLogger(__name__)
 
 class Application():
     def __init__(self):
         self.status = ApplicationStatus.STOPPED
+        self.machine_service = MachineService()
 
     def start(self):
         if self.status != ApplicationStatus.STOPPED:
@@ -14,15 +16,21 @@ class Application():
         self.status = ApplicationStatus.STARTING
         logging.info(f"Application starting. Status: {self.status.name}")
 
+        # Start services
+        self.machine_service.start()
+
         self.status = ApplicationStatus.RUNNING
         logging.info(f"Application started. Status: {self.status.name}")
 
-    def shutdown(self):
+    def stop(self):
         if self.status != ApplicationStatus.RUNNING:
             raise InvalidStateTransition(f"Cannot shutdown application while status is {self.status.name}.")
 
-        self.status = ApplicationStatus.SHUTTING_DOWN
-        logging.info(f"Application shutting down. Status: {self.status.name}")
+        self.status = ApplicationStatus.STOPPING
+        logging.info(f"Application stopping. Status: {self.status.name}")
+
+        # Stop services
+        self.machine_service.stop()
         
         self.status = ApplicationStatus.STOPPED
         logging.info(f"Application stopped. Status: {self.status.name}")
@@ -30,7 +38,7 @@ class Application():
 class ApplicationStatus(Enum):
     STARTING = auto()
     RUNNING = auto()
-    SHUTTING_DOWN = auto()
+    STOPPING = auto()
     STOPPED = auto()
 
 class InvalidStateTransition(Exception):

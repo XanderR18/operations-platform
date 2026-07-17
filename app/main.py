@@ -10,11 +10,8 @@ def main():
 
     # Initalize application
     logging.info("Initializing Operations Platform Application...")
-    try:
-        application = Application()
-        logging.info("Application successfully initialized.\n")
-    except:
-        logging.error(f"Application failed to initialize:\n {e}\n")
+    application = Application()
+    logging.info("Application successfully initialized.\n")
 
     # Start application
     logging.info("Starting application...")
@@ -25,12 +22,12 @@ def main():
         logging.error(f"Application failed to start:\n {e}\n")
 
     # Shutdown application
-    logging.info("Shutting down application...")
+    logging.info("Stopping application...")
     try:
         application.shutdown()
-        logging.info("Application succesfully shutdown.\n")
+        logging.info("Application succesfully stopped.\n")
     except InvalidStateTransition as e:
-        logging.error(f"Application failed to shut down:\n {e}\n")
+        logging.error(f"Application failed to stop:\n {e}\n")
 
 if __name__ == "__main__":
     main()
