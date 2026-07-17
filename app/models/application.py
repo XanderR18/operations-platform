@@ -22,14 +22,14 @@ class Application():
         # Start services
         self.machine_service.start()
 
+        # Creates inital state of the platform
+        bootstrap(self.machine_service)
+
         # Add service to API
         self.api_server.add_service(self.machine_service)
 
         # Start API
-        self.api_server.start()
-
-        # Creates inital state of the platform
-        bootstrap(self.machine_service)
+        self.api_server.start()        
 
         self.status = ApplicationStatus.RUNNING
         logging.info(f"Application started. Status: {self.status.name}")

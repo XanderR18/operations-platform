@@ -41,6 +41,9 @@ class MachineService():
     def get_all_machines(self):
         return self.machines
     
+    def __repr__(self):
+        return f"Service({self.name})"
+    
 class MachineNotFound(Exception):
     pass
 

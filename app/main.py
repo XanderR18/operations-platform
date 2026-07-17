@@ -1,4 +1,5 @@
 import logging
+import uvicorn
 from .models.application import Application, InvalidStateTransition
 
 def main():
@@ -20,6 +21,13 @@ def main():
         logging.info("Application succesfully started.\n")
     except InvalidStateTransition as e:
         logging.error(f"Application failed to start:\n {e}\n")
+
+    # Start Uvicorn for testing. Temporary location
+    uvicorn.run(
+        application.api_server.app,
+        host="127.0.0.1",
+        port=8000
+    )
 
     # Shutdown application
     logging.info("Stopping application...")
