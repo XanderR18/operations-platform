@@ -1,6 +1,7 @@
 import logging
 from enum import Enum, auto
-from services.machine_service import MachineService
+from .services.machine_service import MachineService
+from .bootstrap import bootstrap
 
 logging = logging.getLogger(__name__)
 
@@ -18,6 +19,9 @@ class Application():
 
         # Start services
         self.machine_service.start()
+
+        # Creates inital state of the platform
+        bootstrap(self.machine_service)
 
         self.status = ApplicationStatus.RUNNING
         logging.info(f"Application started. Status: {self.status.name}")
