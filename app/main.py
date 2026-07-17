@@ -1,5 +1,5 @@
 import logging
-from application import Application, InvalidStateTransition
+from .application import Application, InvalidStateTransition
 
 def main():
     # Configure logging
@@ -24,7 +24,7 @@ def main():
     # Shutdown application
     logging.info("Stopping application...")
     try:
-        application.shutdown()
+        application.stop()
         logging.info("Application succesfully stopped.\n")
     except InvalidStateTransition as e:
         logging.error(f"Application failed to stop:\n {e}\n")
