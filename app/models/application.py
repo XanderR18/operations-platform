@@ -1,14 +1,16 @@
 import logging
 from enum import Enum, auto
-from .services.machine_service import MachineService
-from .bootstrap import bootstrap
+from ..services.machine_service import MachineService
+from ..bootstrap import bootstrap
+from ..api.server import APIServer
 
 logging = logging.getLogger(__name__)
 
 class Application():
     def __init__(self):
         self.status = ApplicationStatus.STOPPED
-        self.machine_service = MachineService()
+        self.machine_service = MachineService("machine-service")
+        self.api_server = APIServer()
 
     def start(self):
         if self.status != ApplicationStatus.STOPPED:
@@ -19,6 +21,12 @@ class Application():
 
         # Start services
         self.machine_service.start()
+
+        # Add service to API
+        self.api_server.add_service(self.machine_service)
+
+        # Start API
+        self.api_server.start()
 
         # Creates inital state of the platform
         bootstrap(self.machine_service)

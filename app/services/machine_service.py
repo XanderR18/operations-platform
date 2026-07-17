@@ -4,7 +4,8 @@ from ..models.machine import Machine
 logging = logging.getLogger(__name__)
 
 class MachineService():
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.machines = {}
 
     def start(self):

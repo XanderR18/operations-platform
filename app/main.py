@@ -1,5 +1,5 @@
 import logging
-from .application import Application, InvalidStateTransition
+from .models.application import Application, InvalidStateTransition
 
 def main():
     # Configure logging
