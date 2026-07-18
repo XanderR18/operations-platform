@@ -60,12 +60,21 @@ class MachineService():
         logging.info("Machine healths sucessfully refreshed.")
             
     def _refresh_machine_health(self, machine: Machine) -> None:
+        if machine.id not in self.machines:
+            raise MachineNotFound(f"Machine with id: {machine.id} not found.")
+
         alive = self._ping(machine.ip)
 
         status = MachineHealthStatus.ONLINE if alive else MachineHealthStatus.OFFLINE
         
         machine.health.update(status, datetime.now())
         logging.info(f"{machine.id} -> {status}")
+
+    def refresh_machine_health(self, machine_id: str) -> Machine:
+        machine = self.get_machine(machine_id)
+        self._refresh_machine_health(machine)
+        return machine
+
     
     def _ping(self, ip: str) -> bool:
         result = subprocess.run(

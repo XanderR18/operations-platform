@@ -70,7 +70,6 @@ def register_routes(api, services) -> None:
 
         return MachineResponse.from_machine(machine)
     
-    # Delete
     @api.delete("/machines/{machine_id}")
     async def delete_machine(machine_id: str):
         try:
@@ -79,7 +78,16 @@ def register_routes(api, services) -> None:
             raise HTTPException(status_code=404, detail=str(e))
 
     # Operations
-    # Refresh singular
+    @api.patch("/machines/{machine_id}/refresh", response_model = MachineResponse)
+    async def refresh_machine(machine_id: str):
+        try:
+            machine_service.refresh_machine_health(machine_id)
+        except MachineNotFound as e:
+            raise HTTPException(status_code=404, detail=str(e))
+        
+        updated_machine = machine_service.get_machine(machine_id)
+
+        return MachineResponse.from_machine(updated_machine)
 
     # Refresh all
 
