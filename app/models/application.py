@@ -27,6 +27,10 @@ class Application():
         logging.info("Bootstrapping application...")
         bootstrap(self.machine_service)
 
+        # Initial health refresh
+        logging.info("Udating initial device healths")
+        self.machine_service.refresh_health()
+
         # Add service to API
         logging.info("Adding machine service to API...")
         self.api_server.add_service(self.machine_service)
