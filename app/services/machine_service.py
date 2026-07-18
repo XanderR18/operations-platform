@@ -62,6 +62,8 @@ class MachineService():
     def refresh_machine_health(self, machine_id: str) -> Machine:
         machine = self.get_machine(machine_id)
         self._refresh_machine_health(machine)
+
+        logging.info(f"Machine with id: {machine_id} health refreshed succesfully.")
         return machine
     
     def machine_summary(self) -> dict:
