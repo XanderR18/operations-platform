@@ -12,7 +12,7 @@ class Application():
         self.machine_service = MachineService("machine-service")
         self.api_server = APIServer()
 
-    def start(self):
+    def start(self: Application) -> None:
         if self.status != ApplicationStatus.STOPPED:
             raise InvalidStateTransition(f"Cannot start application while status is {self.status.name}.")
         
@@ -42,7 +42,7 @@ class Application():
         self.status = ApplicationStatus.RUNNING
         logging.info(f"Application started. Status: {self.status.name}")
 
-    def stop(self):
+    def stop(self: Application) -> None:
         if self.status != ApplicationStatus.RUNNING:
             raise InvalidStateTransition(f"Cannot shutdown application while status is {self.status.name}.")
 
