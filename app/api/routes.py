@@ -14,6 +14,7 @@ def register_routes(api, services) -> None:
     async def root():
         return { "message": "Hello, world!" }
     
+    # Discovery
     @api.get("/machines", response_model = list[MachineResponse])
     async def get_all_machines():
         return [
@@ -30,6 +31,7 @@ def register_routes(api, services) -> None:
         
         return MachineResponse.from_machine(machine)
     
+    # Management
     @api.post("/machines", response_model = MachineResponse)
     async def create_machine(req: MachineRequest):
         try:
@@ -67,5 +69,21 @@ def register_routes(api, services) -> None:
             raise HTTPException(status_code=404, detail=str(e))
 
         return MachineResponse.from_machine(machine)
+    
+    # Delete
+    @api.delete("/machines/{machine_id}")
+    async def delete_machine(machine_id: str):
+        try:
+            machine_service.remove_machine(machine_id)
+        except MachineNotFound as e:
+            raise HTTPException(status_code=404, detail=str(e))
+
+    # Operations
+    # Refresh singular
+
+    # Refresh all
+
+    # Statistics
+    # Machines summary
     
     logging.info("Routes succesfully registered.")

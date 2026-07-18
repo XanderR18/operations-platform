@@ -24,7 +24,7 @@ class MachineService():
         self.machines[machine.id] = machine
         logging.info(f"Machine with id: {machine.id} has been registered.")
 
-    def remove_machine(self, machine_id: int) -> None:
+    def remove_machine(self, machine_id: str) -> None:
         if machine_id not in self.machines:
             raise MachineNotFound(f"Machine with id: {machine_id} not found.")
         
