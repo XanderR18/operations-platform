@@ -9,23 +9,23 @@ class APIServer():
         self.app = FastAPI()
         self.services = {}
 
-    def start(self: APIServer) -> None:
+    def start(self) -> None:
         logging.info("Registering routes...")
         self._register_routes()
 
         logging.info("API succesfully started.")
 
-    def stop(self: APIServer) -> None:
+    def stop(self) -> None:
         logging.info("API succesfully stopped.")
 
-    def add_service(self: APIServer, service) -> None:
+    def add_service(self, service) -> None:
         if service.name in self.services:
             raise DuplicateService(f"Service with name: {service.name} already exists")
 
         self.services[service.name] = service
         logging.info(f"Service with name: {service.name} has been added.")
 
-    def _register_routes(self: APIServer) -> None:
+    def _register_routes(self) -> None:
         register_routes(self.app, self.services)
 
 class DuplicateService(Exception):

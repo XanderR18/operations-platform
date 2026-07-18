@@ -12,7 +12,7 @@ class Application():
         self.machine_service = MachineService("machine-service")
         self.api_server = APIServer()
 
-    def start(self: Application) -> None:
+    def start(self) -> None:
         if self.status != ApplicationStatus.STOPPED:
             raise InvalidStateTransition(f"Cannot start application while status is {self.status.name}.")
         
@@ -28,7 +28,7 @@ class Application():
         bootstrap(self.machine_service)
 
         # Initial health refresh
-        logging.info("Udating initial device healths")
+        logging.info("Updating initial device healths")
         self.machine_service.refresh_health()
 
         # Add service to API
@@ -42,7 +42,7 @@ class Application():
         self.status = ApplicationStatus.RUNNING
         logging.info(f"Application started. Status: {self.status.name}")
 
-    def stop(self: Application) -> None:
+    def stop(self) -> None:
         if self.status != ApplicationStatus.RUNNING:
             raise InvalidStateTransition(f"Cannot shutdown application while status is {self.status.name}.")
 
