@@ -45,7 +45,7 @@ class MachineService():
         
         logging.info(f"Machine with id: {machine.id} has been updated.")
 
-    def get_machine(self, machine_id: int) -> Machine:
+    def get_machine(self, machine_id: str) -> Machine:
         if machine_id not in self.machines:
             raise MachineNotFound(f"Machine with id: {machine_id} not found.")
 
