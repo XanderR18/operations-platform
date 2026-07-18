@@ -2,11 +2,11 @@ from enum import Enum, auto
 from .machine_health import MachineHealth
 
 class Machine():
-    def __init__(self, id, host_name, IP, MAC, role):
+    def __init__(self, id, host_name, ip, mac, role):
         self.id = id
         self.host_name = host_name
-        self.ip = IP
-        self.mac = MAC
+        self.ip = ip
+        self.mac = mac
         self.role = role
         self.health = MachineHealth()
 

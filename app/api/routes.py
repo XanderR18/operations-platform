@@ -1,7 +1,9 @@
 import logging
 from fastapi import HTTPException
-from ..services.machine_service import MachineService
+from ..services.machine_service import MachineService, DuplicateMachine
+from ..models.machine import Machine
 from .schemas.machine_response import MachineResponse
+from .schemas.machine_create_request import MachineCreateRequest
 
 logging = logging.getLogger(__name__)
 
@@ -26,6 +28,24 @@ def register_routes(api, services) -> None:
         if machine is None:
             raise HTTPException(status_code=404, detail="Machine not found")
         
+        return MachineResponse.from_machine(machine)
+    
+    @api.post("/machines", response_model = MachineResponse)
+    async def create_machine(req: MachineCreateRequest):
+        try:
+            machine = Machine(
+                id = req.id,
+                host_name = req.host_name,
+                ip = req.ip,
+                mac = req.mac,
+                role = req.role
+            )
+
+            machine_service.add_machine(machine)
+
+        except DuplicateMachine as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
         return MachineResponse.from_machine(machine)
     
     logging.info("Routes succesfully registered.")

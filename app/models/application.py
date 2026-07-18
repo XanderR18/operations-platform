@@ -49,6 +49,10 @@ class Application():
         self.status = ApplicationStatus.STOPPING
         logging.info(f"Application stopping. Status: {self.status.name}")
 
+        # Stop API
+        logging.info("Stopping API...")
+        self.api_server.stop()
+
         # Stop services
         logging.info("Stopping machine service...")
         self.machine_service.stop()
