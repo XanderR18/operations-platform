@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from app.models.machine import MachineRole
 
-class MachineCreateRequest(BaseModel):
+class MachineRequest(BaseModel):
     id: str
     host_name: str
     ip: str
