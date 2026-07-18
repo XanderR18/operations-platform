@@ -89,7 +89,13 @@ def register_routes(api, services) -> None:
 
         return MachineResponse.from_machine(updated_machine)
 
-    # Refresh all
+    @api.patch("/machines/refresh", response_model = list[MachineResponse])
+    async def refresh_all_machines():
+        machine_service.refresh_health()
+        return [
+            MachineResponse.from_machine(machine)
+            for machine in machine_service.get_all_machines().values()
+        ]
 
     # Statistics
     # Machines summary
