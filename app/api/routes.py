@@ -4,6 +4,7 @@ from ..services.machine_service import MachineService, DuplicateMachine, Machine
 from ..models.machine import Machine
 from .schemas.machine_response import MachineResponse
 from .schemas.machine_request import MachineRequest
+from .schemas.machine_summary import MachineSummary
 
 logging = logging.getLogger(__name__)
 
@@ -13,6 +14,11 @@ def register_routes(api, services) -> None:
     @api.get("/")
     async def root():
         return { "message": "Hello, world!" }
+    
+    # Statistics
+    @api.get("/machines/summary", response_model = MachineSummary)
+    async def get_machine_summary():
+        return machine_service.machine_summary()
     
     # Discovery
     @api.get("/machines", response_model = list[MachineResponse])
@@ -96,8 +102,5 @@ def register_routes(api, services) -> None:
             MachineResponse.from_machine(machine)
             for machine in machine_service.get_all_machines().values()
         ]
-
-    # Statistics
-    # Machines summary
     
     logging.info("Routes succesfully registered.")

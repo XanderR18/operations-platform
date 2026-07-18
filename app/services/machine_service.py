@@ -58,7 +58,24 @@ class MachineService():
         for machine in self.machines.values():
             self._refresh_machine_health(machine)
         logging.info("Machine healths sucessfully refreshed.")
-            
+
+    def refresh_machine_health(self, machine_id: str) -> Machine:
+        machine = self.get_machine(machine_id)
+        self._refresh_machine_health(machine)
+        return machine
+    
+    def machine_summary(self) -> dict:
+        summary = {
+            "total": len(self.machines),
+            "statuses": {}
+        }
+
+        for machine in self.machines.values():
+            status = machine.health.status.name
+            summary["statuses"][status] = summary["statuses"].get(status, 0) + 1
+
+        return summary
+
     def _refresh_machine_health(self, machine: Machine) -> None:
         if machine.id not in self.machines:
             raise MachineNotFound(f"Machine with id: {machine.id} not found.")
@@ -69,12 +86,6 @@ class MachineService():
         
         machine.health.update(status, datetime.now())
         logging.info(f"{machine.id} -> {status}")
-
-    def refresh_machine_health(self, machine_id: str) -> Machine:
-        machine = self.get_machine(machine_id)
-        self._refresh_machine_health(machine)
-        return machine
-
     
     def _ping(self, ip: str) -> bool:
         result = subprocess.run(
